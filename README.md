@@ -1,3 +1,7 @@
+The following was written by @wirzka, I will add changes as I progress. WIP. 
+
+
+
 # Incursore
 ```bash
      ____                                        
