@@ -13,7 +13,7 @@ origIFS="${IFS}"
 printf "${GREEN}"
 printf "    ____                                        \n"
 printf "   / __ )_________ _____ ___  _____  __  _______\n"
-printf "  / __  / ___/ __ `/ __ `/ / / / _ \/ / / / ___/\n"
+printf "  / __  / ___/ __ \/ __ \/ / / / _ \/ / / / ___/\n"
 printf " / /_/ / /  / /_/ / /_/ / /_/ /  __/ /_/ / /    \n"
 printf "/_____/_/   \__,_/\__, /\__,_/\___/\__,_/_/     \n"
 printf "                    /_/                         \n"
@@ -76,11 +76,11 @@ fi
 # No args needed
 usage() {
         echo
-        printf "${GREEN}Usage:${NC} ${RED}$(basename $0) -H/--host ${NC}<TARGET-IP>${RED} -t/--type ${NC}<TYPE>${RED}\n"
+        printf "${GREEN}Usage:${NC} ${RED}$(basename $0) -H ${NC}<TARGET-IP>${RED}"
         printf "${YELLOW}Optional: [-d/--dns ${NC}<DNS SERVER>${YELLOW}] [-o/--output ${NC}<OUTPUT DIRECTORY>${YELLOW}]${NC}\n\n"
-        printf "${CYAN}\tAll     : ${NC}Runs all the scans ${YELLOW}\n"
+        printf "${CYAN}\tAll     : ${NC}Runs all the scans (you have no choice :3) ${YELLOW}\n"
         printf "${NC}\n"
-        printf "inspired by ${PURPLE}@21y4d${NC} gently modified by ${PURPLE}@wirzka${NC}\n"
+        printf "inspired by ${PURPLE}@21y4d${NC} and ${PURPLE}@wirzka${NC}, modified by ${PURPLE}@CinnamonBreadowo${NC}\n"
         exit 1
 }
 
@@ -89,7 +89,7 @@ usage() {
 header() {
         echo
         # Print scan type
-        printf "${GREEN}Hail Mary on ${NC}${PURPLE}${HOST}${NC}"
+        printf "${GREEN}Poor little ${NC}${PURPLE}${HOST}${NC}, they won't know what hit them..."
 
         if expr "${HOST}" : '^\(\([[:alnum:]-]\{1,63\}\.\)*[[:alpha:]]\{2,6\}\)$' >/dev/null; then
                 urlIP="$(host -4 -W 1 ${HOST} ${DNSSERVER} 2>/dev/null | grep ${HOST} | head -n 1 | awk {'print $NF'})"
