@@ -51,15 +51,6 @@ TYPE="All"
 done
 set -- ${POSITIONAL}
 
-# Legacy flags support, if run without -H/-t
-if [ -z "${HOST}" ]; then
-        HOST="$1"
-fi
-
-if [ -z "${TYPE}" ]; then
-        TYPE="All"
-fi
-
 # Set DNS or default to system DNS
 if [ -n "${DNS}" ]; then
         DNSSERVER="${DNS}"
