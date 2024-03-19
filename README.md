@@ -78,7 +78,7 @@ $ braqueur.sh -h
                     /_/
              @CinnamonBreadowo                     
 
-Usage: braqueur.sh -H/--host <TARGET-IP> -t/--type <TYPE>
+Usage: braqueur.sh -H <TARGET-IP> 
 Optional: [-d/--dns <DNS SERVER>] [-o/--output <OUTPUT DIRECTORY>]
 
 Scan Types:
