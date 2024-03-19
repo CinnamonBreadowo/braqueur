@@ -31,11 +31,6 @@ while [ $# -gt 0 ]; do
                 shift
                 shift
                 ;;
-        -t | --type)
-                TYPE="$2"
-                shift
-                shift
-                ;;
         -d | --dns)
                 DNS="$2"
                 shift
@@ -51,6 +46,7 @@ while [ $# -gt 0 ]; do
                 shift
                 ;;
         esac
+TYPE="All"
 done
 set -- ${POSITIONAL}
 
@@ -90,12 +86,6 @@ usage() {
         echo
         printf "${GREEN}Usage:${NC} ${RED}$(basename $0) -H/--host ${NC}<TARGET-IP>${RED} -t/--type ${NC}<TYPE>${RED}\n"
         printf "${YELLOW}Optional: [-d/--dns ${NC}<DNS SERVER>${YELLOW}] [-o/--output ${NC}<OUTPUT DIRECTORY>${YELLOW}]${NC}\n\n"
-        printf "${CYAN}Scan Types:\n"
-        printf "${CYAN}\tPort    : ${NC}Shows all open ports ${YELLOW}\n"
-        printf "${CYAN}\tScript  : ${NC}Runs a script scan on found ports ${YELLOW}\n"
-        printf "${CYAN}\tUDP     : ${NC}Runs a UDP scan \"requires sudo\" ${YELLOW}\n"
-        printf "${CYAN}\tVulns   : ${NC}Runs CVE scan and nmap Vulns scan on all found ports ${YELLOW}\n"
-        printf "${CYAN}\tRecon   : ${NC}Suggests recon commands, then prompts to automatically run them\n"
         printf "${CYAN}\tAll     : ${NC}Runs all the scans ${YELLOW}\n"
         printf "${NC}\n"
         printf "inspired by ${PURPLE}@21y4d${NC} gently modified by ${PURPLE}@wirzka${NC}\n"
@@ -107,11 +97,7 @@ usage() {
 header() {
         echo
         # Print scan type
-        if expr "${TYPE}" : '^\([Aa]ll\)$' >/dev/null; then
-                printf "${GREEN}Hail Mary on ${NC}${PURPLE}${HOST}${NC}"
-        else
-                printf "${GREEN}Launching a ${TYPE} scan on ${NC}${HOST}"
-        fi
+        printf "${GREEN}Hail Mary on ${NC}${PURPLE}${HOST}${NC}"
 
         if expr "${HOST}" : '^\(\([[:alnum:]-]\{1,63\}\.\)*[[:alpha:]]\{2,6\}\)$' >/dev/null; then
                 urlIP="$(host -4 -W 1 ${HOST} ${DNSSERVER} 2>/dev/null | grep ${HOST} | head -n 1 | awk {'print $NF'})"
@@ -424,31 +410,12 @@ recon() {
         # Ask user for which recon tools to run, default to All if no answer is detected in 3s
         if [ -n "${availableRecon}" ]; then
                 while [ "${reconCommand}" != "!" ]; do
-                        printf "${YELLOW}\n"
-                        printf "Which commands would you like to run?${NC}\nAll (Default), ${availableRecon}, Skip <!>\n\n"
-                        while [ ${count} -lt ${secs} ]; do
-                                tlimit=$((secs - count))
-                                printf "\033[2K\rRunning Default in (${tlimit})s: "
-
-                                # Waits 1 second for user's input - POSIX read -t
-                                reconCommand="$(sh -c '{ { sleep 1; kill -sINT $$; } & }; exec head -n 1')"
-                                count=$((count + 1))
-                                [ -n "${reconCommand}" ] && break
-                        done
                         if expr "${reconCommand}" : '^\([Aa]ll\)$' >/dev/null || [ -z "${reconCommand}" ]; then
                                 runRecon "${HOST}" "All"
                                 reconCommand="!"
-                        elif expr " ${availableRecon}," : ".* ${reconCommand}," >/dev/null; then
-                                runRecon "${HOST}" "${reconCommand}"
-                                reconCommand="!"
-                        elif [ "${reconCommand}" = "Skip" ] || [ "${reconCommand}" = "!" ]; then
-                                reconCommand="!"
-                                echo
-                                echo
-                                echo
                         else
                                 printf "${NC}\n"
-                                printf "${RED}Incorrect choice!\n"
+                                printf "${RED}Stopping"
                                 printf "${NC}\n"
                         fi
                 done
@@ -522,12 +489,6 @@ reconRecommend() {
                                 if echo "${line}" | grep -q ssl/http; then
                                         urlType='https://'
                                         echo "sslscan \"${HOST}\" | tee \"recon/sslscan_${HOST}_${port}.txt\""
-                                        echo "cutycapt --url=https://${HOST}:${port} --user-agent='incursore-is-on-your-track' --out=recon/screenshot_https_${HOST}_${port}.jpeg --out-format=jpeg"
-                                        #echo "nikto -host \"${urlType}${HOST}:${port}\" -ssl - | tee \"recon/nikto_${HOST}_${port}.txt\""
-                                else
-                                        urlType='http://'
-                                        echo "cutycapt --url=http://${HOST}:${port} --user-agent='incursore-is-on-your-track' --out=recon/screenshot_http_${HOST}_${port}.jpeg --out-format=jpeg"
-                                        #echo "nikto -host \"${urlType}${HOST}:${port}\" | tee \"recon/nikto_${HOST}_${port}.txt\""
                                 fi
                                 if type ffuf >/dev/null 2>&1; then
                                         extensions="$(echo 'index' >./index && ffuf -s -w ./index:FUZZ -mc '200,302' -e '.asp,.aspx,.html,.jsp,.php' -u "${urlType}${HOST}:${port}/FUZZ" 2>/dev/null | awk -vORS=, -F 'index' '{print $2}' | sed 's/.$//' && rm ./index)"
@@ -688,21 +649,6 @@ main() {
         header
 
         case "${TYPE}" in
-        [Pp]ort) portScan "${HOST}" ;;
-        [Ss]cript)
-                [ ! -f "nmap/full_TCP_${HOST}.nmap" ] && portScan "${HOST}"
-                scriptScan "${HOST}"
-                ;;
-        [Uu]dp) UDPScan "${HOST}" ;;
-        [Vv]ulns)
-                [ ! -f "nmap/full_TCP_${HOST}.nmap" ] && portScan "${HOST}"
-                vulnsScan "${HOST}"
-                ;;
-        [Rr]econ)
-                [ ! -f "nmap/full_TCP_${HOST}.nmap" ] && portScan "${HOST}"
-                [ ! -f "nmap/Script_TCP_${HOST}.nmap" ] && scriptScan "${HOST}"
-                recon "${HOST}"
-                ;;
         [Aa]ll)
                 portScan "${HOST}"
                 scriptScan "${HOST}"
@@ -728,7 +674,7 @@ if ! expr "${HOST}" : '^\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}
 fi
 
 # Ensure selected scan type is among available choices, then run the selected scan
-if ! case "${TYPE}" in [Nn]etwork | [Pp]ort | [Ss]cript | [Ff]ull | UDP | udp | [Vv]ulns | [Rr]econ | [Aa]ll) false ;; esac then
+if ! case "${TYPE}" in [Aa]ll) false ;; esac then
         mkdir -p "${OUTPUTDIR}" && cd "${OUTPUTDIR}" && mkdir -p nmap/ || usage
         main | tee "incursore_${HOST}_${TYPE}.txt"
 else
