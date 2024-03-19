@@ -1,49 +1,39 @@
-The following was written by @wirzka, I will add changes as I progress. WIP. 
+Better version of Incursore. WIP. 
+Changes:
 Change #1: Cutycapt removal
+Change #2: All scan will run everything (Type = All)
 
 
-# Incursore
+# Braqueur
 ```bash
-     ____                                        
-    /  _/___ _______  ________________  ________
-   / // __ \/ ___/ / / / ___/ ___/ __ \/ ___/ _ \
- _/ // / / / /__/ /_/ / /  (__  ) /_/ / /  /  __/
-/___/_/ /_/\___/\__,_/_/  /____/\____/_/   \___/
-                     @wirzka     
+    ____                                        
+   / __ )_________ _____ ___  _____  __  _______
+  / __  / ___/ __ `/ __ `/ / / / _ \/ / / / ___/
+ / /_/ / /  / /_/ / /_/ / /_/ /  __/ /_/ / /    
+/_____/_/   \__,_/\__, /\__,_/\___/\__,_/_/     
+                    /_/
+             @CinnamonBreadowo     
 ```
-*Incursore* will raid the target for you.
-
-It came out from *nmapAutomator* to be more suited for the OSCP environment.
-
-## TOC
-- [Lazy here](#tldr)
-- [Features and changes](#features-and-changes)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Future features](#future-features)
-- [Disclaimer](#disclaimer)
+*Braqueur* will raid the target for you.
 
 ## TL;DR
-While *incursore* has born from *nmapAutomator*, it is **not** *nmapAutomator*. The script from @21y4d is great, but sometimes it's too slow (due to nikto). By removing it, the time needed to complete a scan has been drastically reduced.
-So, from just removing nikto I found myself tweaking it a lot, that's why I decided to rename it to incursore and to publish it under a new repo and name.
-Hope you'll find it useful.
+"While *incursore* was born from *nmapAutomator*, it is **not** *nmapAutomator*. The script from @21y4d is great, but sometimes it's too slow (due to nikto). By removing it, the time needed to complete a scan has been drastically reduced.
+So, from just removing nikto I found myself tweaking it a lot, that's why I decided to rename it to incursore and to publish it under a new repo and name."
+-Wirzka
 
-*Bear in mind that I'm still working on it.*
+Braqueur, (French for raider/robber) has multiple changes to incursore. It has removed capycupt, automatically will run maximum recon, and (add more as more changes are made) 
+
+
 
 ## Features and changes
-*Incursore* has the following features and changes:
+*Braqueur* has the following features (and more, of course):
 - It immmediately runs a full TCP port scans
 - It asks to the user to run with sudo in order to run a SYN Scan instead of a Connect Scan
 - It automatically tries to bruteforce FTP services
-- It automatically takes screenshot of HTTP homepages using *cutycapt*
 - It runs *ffuf* instead of *gobuster*
 - It does not run *nikto*
 - It has not the remote capabilities
-#### Minor changes
-- It highlights target IP
-- It highlights target OS type
-- It highlights nmap scan type
+
 ## Requirements
 *Incursore*'s requirements are the following:
 |      tool      |      scope      | official link |
@@ -55,7 +45,6 @@ Hope you'll find it useful.
 |    joomscan    |    web enum     | https://github.com/OWASP/joomscan              |
 |     wpscan     |    web enum     |   https://github.com/wpscanteam/wpscan            |
 |   droopescan   |    web enum     | https://github.com/droope/droopescan              |
-|    cutycapt    |    web enum     |http://cutycapt.sourceforge.net/               |
 |     smbmap     |    smb enum     | https://github.com/ShawnDEvans/smbmap              |
 |   enum4linux   |    smb enum     |   https://github.com/CiscoCXSecurity/enum4linux            |
 |   snmp-check   |    snmp enum    | https://www.nothink.org/codes/snmpcheck/index.php              |
@@ -70,23 +59,24 @@ Hope you'll find it useful.
 The majority of them is already present in pentesting distro like Parrot OS and Kali Linux.
 To find out how many of them are missing on your machine, just launch a which command like this:
 ```bash
-$ which nmap ffuf sslscan joomscan wpscan droopescan cutycapt smbmap enum4linux snmp-check snmpwalk odat ldapsearch dnsrecon smtp-user-enum hydra
+$ which nmap ffuf sslscan joomscan wpscan droopescan smbmap enum4linux snmp-check snmpwalk odat ldapsearch dnsrecon smtp-user-enum hydra
 ```
 
 ## Installation
 ```bash
-git clone https://github.com/wirzka/incursore.git
+git clone https://github.com/CinnamonBreadowo/braqueur.git
 sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
 ```
 ## Usage
 ```bash
-$ incursore.sh -h
-     ____                                        
-    /  _/___ _______  ________________  ________
-   / // __ \/ ___/ / / / ___/ ___/ __ \/ ___/ _ \
- _/ // / / / /__/ /_/ / /  (__  ) /_/ / /  /  __/
-/___/_/ /_/\___/\__,_/_/  /____/\____/_/   \___/
-                     @wirzka                      
+$ braqueur.sh -h
+    ____                                        
+   / __ )_________ _____ ___  _____  __  _______
+  / __  / ___/ __ `/ __ `/ / / / _ \/ / / / ___/
+ / /_/ / /  / /_/ / /_/ / /_/ /  __/ /_/ / /    
+/_____/_/   \__,_/\__, /\__,_/\___/\__,_/_/     
+                    /_/
+             @CinnamonBreadowo                     
 
 Usage: incursore.sh -H/--host <TARGET-IP> -t/--type <TYPE>
 Optional: [-d/--dns <DNS SERVER>] [-o/--output <OUTPUT DIRECTORY>]
@@ -105,7 +95,7 @@ inspired by @21y4d gently modified by @wirzka
 - Generally increasing auto reconnaissance based on discovered services.
 
 ## Disclaimer
-I am not responsible for any damages (tangible or intangible) resulting from the use of *incursore*.
+I am not responsible for any damages (tangible or intangible) resulting from the use of *braqueur*.
 You must have the permissions to use it.
 
 Stay safe.
