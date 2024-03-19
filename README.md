@@ -65,7 +65,7 @@ $ which nmap ffuf sslscan joomscan wpscan droopescan smbmap enum4linux snmp-chec
 ## Installation
 ```bash
 git clone https://github.com/CinnamonBreadowo/braqueur.git
-sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
+sudo ln -s $(pwd)/braqueur/braqueur.sh /usr/local/bin/
 ```
 ## Usage
 ```bash
@@ -78,7 +78,7 @@ $ braqueur.sh -h
                     /_/
              @CinnamonBreadowo                     
 
-Usage: incursore.sh -H/--host <TARGET-IP> -t/--type <TYPE>
+Usage: braqueur.sh -H/--host <TARGET-IP> -t/--type <TYPE>
 Optional: [-d/--dns <DNS SERVER>] [-o/--output <OUTPUT DIRECTORY>]
 
 Scan Types:
@@ -89,7 +89,7 @@ Scan Types:
         Recon   : Suggests recon commands, then prompts to automatically run them
         All     : Runs all the scans
 
-inspired by @21y4d gently modified by @wirzka
+inspired by @21y4d and @wirzka gently modified by @CinnamonBreadowo
 ```
 ## Future Features
 - Generally increasing auto reconnaissance based on discovered services.
