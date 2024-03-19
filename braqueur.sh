@@ -1,6 +1,6 @@
 #!/bin/sh
-# inspired by @21y4d
-# crafted by @wirzka
+# inspired by @21y4d and @wirzka
+# crafted by @CinnamonBreadowo
 # ANSI color variables
 RED='\033[1;31m'
 YELLOW='\033[1;33m'
@@ -11,12 +11,13 @@ NC='\033[0m'
 origIFS="${IFS}"
 
 printf "${GREEN}"
-printf "     ____                                        \n"
-printf "    /  _/___ _______  ________________  ________\n"
-printf "   / // __ \/ ___/ / / / ___/ ___/ __ \/ ___/ _ \ \n"
-printf " _/ // / / / /__/ /_/ / /  (__  ) /_/ / /  /  __/\n"
-printf "/___/_/ /_/\___/\__,_/_/  /____/\____/_/   \___/\n${NC}"
-printf "                     @wirzka                      \n"
+printf "    ____                                        \n"
+printf "   / __ )_________ _____ ___  _____  __  _______\n"
+printf "  / __  / ___/ __ `/ __ `/ / / / _ \/ / / / ___/\n"
+printf " / /_/ / /  / /_/ / /_/ / /_/ /  __/ /_/ / /    \n"
+printf "/_____/_/   \__,_/\__, /\__,_/\___/\__,_/_/     \n"
+printf "                    /_/                         \n"
+printf "              @CinnamonBreadowo                 \n"
 
 # Start timer
 elapsedStart="$(date '+%H:%M:%S' | awk -F: '{print $1 * 3600 + $2 * 60 + $3}')"
