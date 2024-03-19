@@ -677,7 +677,7 @@ fi
 # Ensure selected scan type is among available choices, then run the selected scan
 if ! case "${TYPE}" in [Aa]ll) false ;; esac then
         mkdir -p "${OUTPUTDIR}" && cd "${OUTPUTDIR}" && mkdir -p nmap/ || usage
-        main | tee "incursore_${HOST}_${TYPE}.txt"
+        main | tee "braqueur${HOST}_${TYPE}.txt"
 else
         printf "${RED}\n"
         printf "${RED}Invalid Type!\n"
