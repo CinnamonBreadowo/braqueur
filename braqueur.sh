@@ -57,7 +57,7 @@ if [ -z "${HOST}" ]; then
 fi
 
 if [ -z "${TYPE}" ]; then
-        TYPE="$2"
+        TYPE="All"
 fi
 
 # Set DNS or default to system DNS
