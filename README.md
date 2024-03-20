@@ -66,6 +66,10 @@ $ which nmap ffuf sslscan joomscan wpscan droopescan smbmap enum4linux snmp-chec
 ```bash
 git clone https://github.com/CinnamonBreadowo/braqueur.git
 sudo ln -s $(pwd)/braqueur/braqueur.sh /usr/local/bin/
+chmod +x $(pwd)/braqueur/braqueur.sh
+cd $(pwd)/branqueur
+export PATH="$PATH:$(pwd)"
+
 ```
 ## Usage
 ```bash
