@@ -68,7 +68,6 @@ git clone https://github.com/CinnamonBreadowo/braqueur.git
 sudo ln -s $(pwd)/braqueur/braqueur.sh /usr/local/bin/
 chmod +x $(pwd)/braqueur/braqueur.sh
 cd $(pwd)/braqueur
-export PATH="$PATH:$(pwd)"
 
 
 ```
