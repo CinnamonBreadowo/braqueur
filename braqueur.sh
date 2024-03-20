@@ -22,6 +22,11 @@ printf "              @CinnamonBreadowo                 \n"
 # Start timer
 elapsedStart="$(date '+%H:%M:%S' | awk -F: '{print $1 * 3600 + $2 * 60 + $3}')"
 
+#File Paths
+USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
+LOG_FILE="/home/$USER_HOME/braqueur"
+
+        
 # Parse flags
 while [ $# -gt 0 ]; do
         key="$1"
@@ -581,7 +586,7 @@ runRecon() {
         IFS="
 "
 
-        mkdir -p recon/
+        mkdir -p ${LOG_FILE}/${OUTPUTDIR}/recon/
 
         if [ "$2" = "All" ]; then
                 reconCommands="$(grep "${HOST}" "nmap/Recon_${HOST}.nmap")"
@@ -667,8 +672,8 @@ fi
 
 # Ensure selected scan type is among available choices, then run the selected scan
 if ! case "${TYPE}" in [Aa]ll) false ;; esac then
-        mkdir -p "${OUTPUTDIR}" && cd "${OUTPUTDIR}" && mkdir -p nmap/ || usage
-        main | tee "braqueur${HOST}_${TYPE}.txt"
+        mkdir -p "${LOG_FILE}/${OUTPUTDIR}" && mkdir -p "${LOG_FILE}/${OUTPUTDIR}/nmap/" || usage
+        main | tee "${LOG_FILE}/${OUTPUTDIR}/nmap/braqueur${HOST}_${TYPE}.txt"
 else
         printf "${RED}\n"
         printf "${RED}Invalid Type!\n"
