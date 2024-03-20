@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # inspired by @21y4d and @wirzka
 # crafted by @CinnamonBreadowo
 # ANSI color variables
