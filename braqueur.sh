@@ -24,7 +24,7 @@ elapsedStart="$(date '+%H:%M:%S' | awk -F: '{print $1 * 3600 + $2 * 60 + $3}')"
 
 #File Paths
 USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
-LOG_FILE="/home/$USER_HOME/braqueur"
+LOG_FILE="$USER_HOME/braqueur"
 
         
 # Parse flags
