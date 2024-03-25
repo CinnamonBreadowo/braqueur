@@ -22,16 +22,14 @@ printf "              @CinnamonBreadowo                 \n"
 # Start timer
 elapsedStart="$(date '+%H:%M:%S' | awk -F: '{print $1 * 3600 + $2 * 60 + $3}')"
 
+#Assign Host
+HOST="$1"
+
 # Parse flags
 while [ $# -gt 0 ]; do
         key="$1"
 
         case "${key}" in
-        -H | --host)
-                HOST="$2"
-                shift
-                shift
-                ;;
         -d | --dns)
                 DNS="$2"
                 shift
@@ -227,7 +225,7 @@ nmapProgressBar() {
 # do a full TCP SYN scan if id=0 or connect scan
 portScan() {
         if [ "${USER}" != 'root' ]; then
-                echo "${RED}[!] ALERT${NC}"
+                echo "${RED}[!] ALERT"
                 echo "${RED}>${NC} Nmap needs to be run as root, otherwise it'll do a connect scan instead of a SYN scan."
 
                 # asking if user wants to run nmap as root or not
